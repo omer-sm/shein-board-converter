@@ -10,9 +10,11 @@ function getParamsAndCopy() {
         if (jacketWords.some(s => str.includes(s))) return "Jacket"
         return str
     }
-    const lst = document.getElementsByClassName("c-wish-list")[0]
+    
+    const element = document.getElementsByClassName("c-wish-list")[0]
     let params = ""
-    for (const c of lst.firstElementChild.children) {
+    const lst = element.querySelector("ul")
+    for (const c of lst.children) {
         const productType = getProductType(c.ariaLabel)
         params += productType + "," + c.firstElementChild.firstElementChild.firstElementChild.firstElementChild.getAttribute('src') 
         + "," + productType + ": www.shein.com" + c.firstElementChild.firstElementChild.getAttribute("href") + ";"
@@ -21,7 +23,7 @@ function getParamsAndCopy() {
 }
 
 chrome.action.onClicked.addListener((tab) => {
-    if (tab.url.includes('https://www.shein.com/user/wishlist')) {
+    if (tab.url.includes('shein.com/user/wishlist')) {
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             function: getParamsAndCopy
